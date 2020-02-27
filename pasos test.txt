@@ -1,0 +1,27 @@
+https://www.sitepoint.com/testing-functional-javascript/
+
+
+0) Crear carpeta de proyecto
+
+npm init
+npm install --save-dev mocha
+npm install --save-dev chai
+npm install --save pg
+npm install --save sequelize
+
+
+4) Set up a test script in package.json:
+"scripts": {
+  "test": "mocha"
+}
+
+5) npm install
+
+6) Finalmente con los archivos creados (add.js y test.js)
+
+
+7) En consola: 
+psql -U postgres
+create database testing-sequelize // created from the ide
+
+8) npm test
