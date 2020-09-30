@@ -10,6 +10,7 @@ describe('Model Student', () => {
   describe('Validations', () => {
     
     describe('property name', () => {
+
       it("deberia tener un name", (done) => {
         //done() --> OK
         //done(something) --> Error
@@ -24,6 +25,17 @@ describe('Model Student', () => {
         })
           .then(() => done(new Error('Debería haber arrojado un error')))
           .catch(() => done());
+
+        /*
+        //Using Instances: https://sequelize.org/master/manual/model-instances.html
+        const student = Student.build({}); // sincrónico
+        student.validate()
+          .then(() => done(new Error('Debería haber arrojado un error')))
+            .catch(() => {
+              done();
+            });
+        */
+
       });
 
       it('should validate ok when name has a string', () => {
@@ -43,6 +55,7 @@ describe('Model Student', () => {
           .catch(() => done()) 
       });
     });
+
   })
   
 })
