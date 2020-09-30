@@ -4,7 +4,9 @@ const db = new S('postgres://postgres@localhost/testing-sequelize', {
   logging: false,
 });
 
-module.exports = db.define('student', {
+class Student extends S.Model {}
+
+Student.init({
   name: {
     type: S.STRING,
     allowNull: false,
@@ -18,5 +20,6 @@ module.exports = db.define('student', {
       'Bootcamp',
       'React'),
   },
+}, { sequelize: db, modelName: 'student' })
 
-});
+module.exports = Student;
