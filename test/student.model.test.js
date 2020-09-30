@@ -1,13 +1,24 @@
 const Student = require('../models');
 
+const chai = require('chai');
+const expect = chai.expect;
+
 // The forced-error test (FET) consists of negative test cases that are designed to force a program into error conditions
 
-describe('Model Student', () => {
+describe('Student Model', () => {
+  /*
+    before() is run once before all the tests in a describe
+    after()   is run once after all the tests in a describe
+    beforeEach() is run before each test in a describe
+    afterEach()   is run after each test in a describe
+  */
   before(() => {
     return Student.sync({ force: true });
   });
 
   describe('Validations', () => {
+    // https://mochajs.org/#working-with-promises
+    // si le agregamos el done como parámetro mocha sabe que voy a hacer algo asincrónico, y necesita ejecutarse luego para terminar esa expectativa, sino queda esperando...
     
     describe('property name', () => {
 
@@ -38,11 +49,15 @@ describe('Model Student', () => {
 
       });
 
+      
       it('should validate ok when name has a string', () => {
         return Student.create({
           name: 'Guille'
-        }); //this is returning a promise and the results impact in done directly
+        }) //this is returning a promise and the results impact in done directly
+        
       });
+      // Probar sacarle el return y poner un name: [], ver que pasa igual los tests, porque no entiende mocha que es asincronico, no ve error y lo aprueba , el error llega más tarde...
+
     })
 
 
@@ -54,8 +69,70 @@ describe('Model Student', () => {
           .then(() => done(new Error('should not have validate')))
           .catch(() => done()) 
       });
+
+      
     });
 
   })
+
+
+
+  describe('Find students', () => {
+    before(() => {
+      return Student.create({
+        name: 'Pepe',
+        camada: '32020',
+        curso: 'Bootcamp'
+      })
+    });
+     
+    it('should return an array of students', function(){
+      Student.findAll()
+        .then(students => {
+          expect(students).to.be.an('array');
+          expect(students).to.have.lengthOf(2);
+        })
+    })
+
+    /*
+    it('should return an array of students', function(done){
+      Student.findAll() //todos los métodos son promesifica2
+        .then(students => {
+          expect(students).to.be.an('array');
+          done()
+        })
+    })*/
+    // podemos ver al done como el 'next' de node y expres..
+    // catch(error=>done(error)) === catch(done)
+
+  });
+
   
 })
+
+
+/* 
+////////////////// OTROS EJEMPLOS
+
+// En caso de no tener promesas, por ejemplo con callbacks:
+it('aaaa', function(done){
+  readFile(function(content){ // funcion sincronica
+      //hace algo con ese content
+       expect(content).to.be.an('object');
+       done(); //le aviso a mocha que ya está hecho...
+  })
+})
+
+// otros ejemplos
+getUsers().
+        then((res) => {
+          expect(res).to.eql([
+            {id: 1, name: 'Leanne Graham'},
+            {id: 2, name: 'Ervin Howel'}
+          ]); 
+        })
++       .then(() => done(), done);
+*/
+
+
+
