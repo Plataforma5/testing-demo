@@ -1,24 +1,24 @@
-const S = require("sequelize");
+const { Model, DataTypes, Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize("testing-sequelize", null, null, {
+const sequelize = new Sequelize("testing-sequelize", "postgres", "demo", {
   host: "localhost",
   dialect: "postgres",
   logging: false,
 });
 
-class Student extends S.Model {}
+class Student extends Model {}
 
 Student.init(
   {
     name: {
-      type: S.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     camada: {
-      type: S.STRING,
+      type: DataTypes.INTEGER,
     },
     curso: {
-      type: S.ENUM("Intro", "Bootcamp", "React"),
+      type: DataTypes.ENUM("Intro", "Bootcamp", "React"),
     },
   },
   { sequelize, modelName: "student" }
